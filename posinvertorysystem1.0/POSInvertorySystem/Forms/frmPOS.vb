@@ -58,8 +58,7 @@ Public Class frmPOS
                             Case Is > 0
                                 For Each r As DataGridViewRow In dtgCart.Rows
                                     If r.Cells(0).FormattedValue = TXTITEMID.Text Then
-                                        MsgBox("Item already exist!", MsgBoxStyle.Exclamation, "Message")
-
+                                        MsgBox("Item already exist!", MsgBoxStyle.Exclamation)
                                         Beep()
                                         TXTITEMID.Clear()
                                         TXTITEMID.Focus()
@@ -103,11 +102,11 @@ Public Class frmPOS
                     dtgCart.Refresh()
 
                 Else
-                    MsgBox("Item not available!", MsgBoxStyle.Exclamation, "Message")
+                    MsgBox("Item not available!", MsgBoxStyle.Exclamation)
                 End If
 
             Catch ex As Exception
-                MsgBox("Input is incorrect! Try again.", MsgBoxStyle.Exclamation, "Message")
+                MsgBox("Input is incorrect! Try again.", MsgBoxStyle.Exclamation)
             End Try
         End If
     End Sub
@@ -215,10 +214,10 @@ Public Class frmPOS
         Try
 
             If TXTTENDERED.Text = "" And LBLCHANGE.Text = 0 Then
-                MsgBox("Enter the correct amount!.", MsgBoxStyle.Exclamation, "Message")
+                MsgBox("Enter the correct amount!.", MsgBoxStyle.Exclamation)
             Else
                 If LBLCHANGE.Text < 0 Then
-                    MsgBox("Enter the correct amount!.", MsgBoxStyle.Exclamation, "Message")
+                    MsgBox("Enter the correct amount!.", MsgBoxStyle.Exclamation)
                 Else
                     For Each r As DataGridViewRow In dtgCart.Rows
                         'insert soldout
@@ -381,7 +380,7 @@ Public Class frmPOS
     End Sub
     Private Sub print()
         Dim myReport As New ReportDocument()
-        myReport.Load(Application.StartupPath & "\CrystalReport1.rpt")
+        myReport.Load("C:\Users\Kram Serolf\Downloads\Compressed\posinvertorysystem1.0\posinvertorysystem1.0\POSInvertorySystem\CrystalReport1.rpt")
         'Pass database and Parameter info here
         myReport.PrintOptions.PrinterName = "POS-90"
         myReport.Refresh()

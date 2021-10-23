@@ -3,6 +3,7 @@
         dtgSales()
         dgDesign()
         txtSearch.Select()
+        Label4.Visible = False
 
     End Sub
 
@@ -67,11 +68,6 @@
         btnSearch.Enabled = True
     End Sub
 
-
-
-    Private Sub TxtSearchTrans_Click(sender As Object, e As EventArgs)
-
-    End Sub
 
     Private Sub TxtSearch_TextChanged(sender As Object, e As EventArgs) Handles txtSearch.TextChanged
         query = "SELECT TRANSDATE, TRANSNUM, TOTALPRICE FROM tblsummary WHERE TRANSNUM LIKE '%" & txtSearch.Text & "%' GROUP BY TRANSDATE, TRANSNUM,TOTALPRICE"

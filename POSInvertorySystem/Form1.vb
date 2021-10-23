@@ -121,4 +121,8 @@
             MsgBox(ex.Message)
         End Try
     End Sub
+
+    Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
+        AboutBox1.Show()
+    End Sub
 End Class

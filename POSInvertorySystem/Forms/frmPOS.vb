@@ -380,12 +380,16 @@ Public Class frmPOS
         End If
     End Sub
     Private Sub print()
-        Dim myReport As New ReportDocument()
-        myReport.Load(Application.StartupPath & "\CrystalReport1.rpt")
-        'Pass database and Parameter info here
-        myReport.PrintOptions.PrinterName = "POS-90"
-        myReport.Refresh()
-        myReport.PrintToPrinter(1, True, 0, 0) 'This prints one copy of all pages to the default printer, and collates them
+        Try
+            Dim myReport As New ReportDocument()
+            myReport.Load(Application.StartupPath & "\CrystalReport1.rpt")
+            'Pass database and Parameter info here
+            myReport.PrintOptions.PrinterName = "POS-90"
+            myReport.Refresh()
+            myReport.PrintToPrinter(1, True, 0, 0) 'This prints one copy of all pages to the default printer, and collates them
+        Catch ex As Exception
+            MsgBox(ex.Message)
+        End Try
     End Sub
 
     Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click

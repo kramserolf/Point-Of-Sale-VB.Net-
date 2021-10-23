@@ -585,7 +585,7 @@ Partial Class frmPOS
         '
         Me.PictureBox1.Image = Global.POSInvertorySystem.My.Resources.Resources.Nayun_s_Mini_Mart_logos_transparent
         Me.PictureBox1.Location = New System.Drawing.Point(0, -1)
-        Me.PictureBox1.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.PictureBox1.Margin = New System.Windows.Forms.Padding(2)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(969, 184)
         Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage
@@ -652,7 +652,7 @@ Partial Class frmPOS
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(1348, 725)
+        Me.ClientSize = New System.Drawing.Size(1346, 725)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.lblUname)
         Me.Controls.Add(Me.lblTime)

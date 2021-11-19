@@ -8,6 +8,7 @@ Public Class frmPOS
         result = RETRIEVESIGLE(query)
         If result = True Then
             lbltotalsales.Text = dt.Rows(0).Item(0)
+
         End If
     End Sub
     Private Sub frmPOS_Load(sender As Object, e As EventArgs) Handles MyBase.Load
@@ -23,7 +24,7 @@ Public Class frmPOS
             Timer1.Start()
 
 
-            dtgCart.RowHeadersVisible = False
+            ' dtgCart.RowHeadersVisible = False
             TXTITEMID.Clear()
             TXTITEMID.Focus()
             TXTTENDERED.Enabled = False
@@ -35,38 +36,44 @@ Public Class frmPOS
         End Try
     End Sub
 
-    Private Sub TXTITEMID_TextChanged(sender As Object, e As EventArgs) Handles TXTITEMID.TextChanged
-
-    End Sub
 
     Private Sub TXTITEMID_KeyDown(sender As Object, e As KeyEventArgs) Handles TXTITEMID.KeyDown
+        If e.KeyCode = Keys.Escape Then
+            Me.Close()
+        End If
         If e.KeyCode = Keys.Enter Then
+            lowStocks()
+
             Try
                 Dim maxrow As Integer
                 Dim itemid As String = TXTITEMID.Text
                 Dim tot As Double
                 query = "SELECT ITEMBARCODE,ITEMNAME,DESCRIPTION,UPRICE,ITEMQTY FROM tblItems WHERE ITEMQTY > 0 AND ITEMBARCODE='" & itemid & "'"
+
                 result = RETRIEVESIGLE(query)
 
                 If result = True Then
+
+
                     With dt.Rows(0)
                         Dim row As String() = New String() { .Item(0),
                                                                   .Item(1),
                                                                   .Item(2),
-                                                                  .Item(3), 1, .Item(3)}
+                                                                  .Item(3), 1, .Item(3), .Item(4)}
                         Select Case dtgCart.Rows.Count
-                            Case Is > 0
+                            Case > 0
                                 For Each r As DataGridViewRow In dtgCart.Rows
-                                    If r.Cells(0).FormattedValue = TXTITEMID.Text Then
-                                        MsgBox("Item already exist!", MsgBoxStyle.Exclamation, "Message")
+                                    'If r.Cells(4).FormattedValue < 10 Then
+                                    'MsgBox("Low stocks alert!", MsgBoxStyle.Exclamation, "Message")
 
-                                        Beep()
-                                        TXTITEMID.Clear()
-                                        TXTITEMID.Focus()
-                                        Return
-                                    End If
+                                    'Beep()
+                                    'TXTITEMID.Clear()
+                                    'TEMID.Focus()
+                                    'Return
+                                    'End If
                                 Next
                                 dtgCart.Rows.Add(row)
+
                                 maxrow = dtgCart.Rows.Count - 1
 
 
@@ -101,6 +108,7 @@ Public Class frmPOS
                     TXTITEMID.Focus()
                     dtgCart.RowHeadersVisible = False
                     dtgCart.Refresh()
+
 
                 Else
                     MsgBox("Item not available!", MsgBoxStyle.Exclamation, "Message")
@@ -148,8 +156,6 @@ Public Class frmPOS
 
             Next
 
-
-
             For i = 0 To dtgCart.Rows.Count - 1
                 tot += dtgCart.Rows(i).Cells(5).FormattedValue
                 'qty += dtgCart.Rows(i).Cells(3).Value
@@ -169,9 +175,6 @@ Public Class frmPOS
             'Dim vat As Double
             ' Dim totvat As Double
             Dim tot As Double
-
-
-
 
             tot = Double.Parse(LBLSUBTOTAL.Text)
 
@@ -251,8 +254,6 @@ Public Class frmPOS
                     Dim sql As String
                     sql = "SELECT * FROM tblCategory C,tblItems I,tblsoldout SO,tblUser U, tblsummary SM  " &
                     "WHERE C.CATEGPROID=I.CATEGPROID AND I.ITEMBARCODE=SO.ITEMBARCODE AND SO.TRANSNUM=SM.TRANSNUM AND SO.USERID=U.USERID AND SO.TRANSNUM=" & LBLTRANSID.Text
-
-
 
 
 
@@ -357,6 +358,10 @@ Public Class frmPOS
     Private Sub ESCToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ESCToolStripMenuItem.Click
         Call BTNESCAPE_Click(sender, e)
     End Sub
+    Private Sub ADDToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ADDToolStripMenuItem.Click
+        Call BtnSearch_Click(sender, e)
+    End Sub
+
     Private Sub dgdesign()
         dtgCart.Columns(0).DefaultCellStyle.Font = New Font("tahoma", 12)
         dtgCart.Columns(1).DefaultCellStyle.Font = New Font("tahoma", 12)
@@ -364,16 +369,16 @@ Public Class frmPOS
         dtgCart.Columns(3).DefaultCellStyle.Font = New Font("tahoma", 12)
         dtgCart.Columns(4).DefaultCellStyle.Font = New Font("tahoma", 12)
         dtgCart.Columns(5).DefaultCellStyle.Font = New Font("tahoma", 12)
+        dtgCart.Columns(6).DefaultCellStyle.Font = New Font("tahoma", 12)
 
         dtgCart.Columns(3).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         dtgCart.Columns(4).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter
         dtgCart.Columns(5).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
+        dtgCart.Columns(6).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
 
         dtgCart.ColumnHeadersDefaultCellStyle.Alignment = ContentAlignment.MiddleCenter
 
-
     End Sub
-
     Private Sub TXTTENDERED_KeyDown(sender As Object, e As KeyEventArgs) Handles TXTTENDERED.KeyDown
         If e.KeyCode = Keys.Enter Then
             BTNSAVE.PerformClick()
@@ -392,7 +397,20 @@ Public Class frmPOS
         End Try
     End Sub
 
-    Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
+    Private Sub BtnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
+        frmSearchProduct.Show()
+    End Sub
 
+
+    Private Sub lowStocks()
+        'If dtgCart.CurrentRow.Cells(6).Value < 10 Then
+        'MsgBox("Low stocks alert!", MsgBoxStyle.Exclamation, "Alert Message")
+        'End If
+        query = "SELECT ITEMBARCODE,ITEMNAME,DESCRIPTION,UPRICE,ITEMQTY FROM tblItems WHERE ITEMQTY < 10 AND ITEMBARCODE='" & TXTITEMID.Text & "'"
+
+        result = RETRIEVESIGLE(query)
+        If result = True Then
+            MsgBox("Low stocks alert!", MsgBoxStyle.Exclamation, "Warning")
+        End If
     End Sub
 End Class

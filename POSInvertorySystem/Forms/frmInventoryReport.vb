@@ -3,6 +3,7 @@
         dtgInventory()
         dgDesign()
         txtSearch.Select()
+        btnPrint.Enabled = False
     End Sub
 
     Private Sub dtgInventory()
@@ -45,19 +46,6 @@
         dgReport.ColumnHeadersDefaultCellStyle.Alignment = ContentAlignment.MiddleCenter
     End Sub
 
-    Private Sub BtnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
-        search()
-    End Sub
-
-    Private Sub BtnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
-        dtgInventory()
-        txtSearch.Clear()
-    End Sub
-
-    Private Sub TxtSearch_TextChanged(sender As Object, e As EventArgs) Handles txtSearch.TextChanged
-
-    End Sub
-
     Private Sub search()
         query = "SELECT tblItems.ITEMNAME, tblItems.DESCRIPTION, Last(tblItems.ITEMQTY) + SUM(tblsoldout.TRANSQTY) AS QTY, Sum(tblsoldout.TRANSQTY) AS SOLD, Last(tblItems.ITEMQTY) AS REMAINING" &
 " FROM tblItems INNER JOIN tblsoldout ON tblItems.ITEMBARCODE = tblsoldout.ITEMBARCODE WHERE tblitems.ITEMQTY < " & Val(txtSearch.Text) & "" &
@@ -65,7 +53,12 @@
         LoadDTG(query, dgReport)
     End Sub
 
-    Private Sub insertLogs()
-        query = "INSERT INTO tblLogsInventory(ITEMNAME, ITEMDESCRIPTION, ITEMQTY, SOLD, REMAINING) VALUES ()"
+    Private Sub BtnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
+        search()
+    End Sub
+
+    Private Sub BtnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
+        dtgInventory()
+        txtSearch.Clear()
     End Sub
 End Class

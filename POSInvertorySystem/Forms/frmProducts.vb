@@ -1,7 +1,7 @@
 ﻿Public Class frmProducts
     Private Sub frmProducts_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        Call btnNew_Click(sender, e)
-        dgdesign()
+        loadData()
+        dgdesignItems()
         txtBarcode.Select()
     End Sub
 
@@ -41,7 +41,7 @@
 
 
 
-                Call btnNew_Click(sender, e)
+                loadData()
                 txtBarcode.Clear()
                 updateAutoNumber(2, LBLCATEGID)
             End If
@@ -84,32 +84,17 @@
         txtUprice.SelectAll()
         'txtpercent.SelectAll()
     End Sub
-
-    Private Sub btnNew_Click(sender As Object, e As EventArgs) Handles btnNew.Click
+    Private Sub loadData()
         ALL_STOCKS(dtgList)
         LBLCATEGID.Text = 0
         If LBLCATEGID.Text = 0 Then
             query = "Select * From tblCategory"
             CBOFILL(query, TXTCATEGORY, "CATEGORIES", "CATEGPROID")
-
         End If
-        btnDelete.Enabled = False
-        BTNSAVE.Enabled = True
         clear(Me)
     End Sub
 
-    Private Sub dtgList_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles dtgList.CellClick
-        txtBarcode.Text = dtgList.CurrentRow.Cells(1).Value
-        TXTPRONAME.Text = dtgList.CurrentRow.Cells(2).Value
-        TXTDESC.Text = dtgList.CurrentRow.Cells(3).Value
-        TXTCATEGORY.Text = dtgList.CurrentRow.Cells(4).Value
-        txtUprice.Text = dtgList.CurrentRow.Cells(5).Value
-        TXTQTY.Text = dtgList.CurrentRow.Cells(6).Value
-        price.Text = dtgList.CurrentRow.Cells(7).Value
-        btnDelete.Enabled = True
-        BTNSAVE.Enabled = False
-        BTNUPDATE.Enabled = True
-    End Sub
+
 
     Private Sub txtBarcode_TextChanged(sender As Object, e As EventArgs)
         Try
@@ -165,7 +150,7 @@
         query = "DELETE * FROM tblitems WHERE ITEMBARCODE = '" & dtgList.CurrentRow.Cells(1).Value & "'"
         JANOBEDELETE(query)
 
-        Call btnNew_Click(sender, e)
+        loadData()
     End Sub
 
     Private Sub TXTCATEGORY_SelectedIndexChanged(sender As Object, e As EventArgs) Handles TXTCATEGORY.SelectedIndexChanged
@@ -176,22 +161,19 @@
 
         End Try
     End Sub
-
     Private Sub TXTSEARCH_TextChanged(sender As Object, e As EventArgs) Handles TXTSEARCH.TextChanged
-        ALL_STOCKS_SEARCH(dtgList, "AND ITEMBARCODE LIKE '%" & TXTSEARCH.Text & "%'")
+        ALL_STOCKS_SEARCH(dtgList, "AND ITEMNAME LIKE '%" & TXTSEARCH.Text & "%'")
     End Sub
 
-    Private Sub dgdesign()
+    Private Sub dgdesignItems()
 
         dtgList.Columns(1).HeaderCell.Value = "Barcode"
         dtgList.Columns(2).HeaderCell.Value = "Item Name"
         dtgList.Columns(3).HeaderCell.Value = "Description"
         dtgList.Columns(4).HeaderCell.Value = "Category"
-        dtgList.Columns(5).HeaderCell.Value = "Price"
-        dtgList.Columns(6).HeaderCell.Value = "Qty"
-        dtgList.Columns(7).HeaderCell.Value = "Total Price"
-
-
+        dtgList.Columns(5).HeaderCell.Value = "Unit Price"
+        dtgList.Columns(6).HeaderCell.Value = "Price"
+        dtgList.Columns(7).HeaderCell.Value = "Qty"
 
 
         dtgList.Columns(1).DefaultCellStyle.Font = New Font("tahoma", 10)
@@ -204,22 +186,26 @@
 
         dtgList.ColumnHeadersDefaultCellStyle.Font = New Font("tahoma", 12)
 
-        dtgList.Columns(1).Width = 140
-        dtgList.Columns(2).Width = 160
-        dtgList.Columns(3).Width = 160
-        dtgList.Columns(6).Width = 60
+        dtgList.Columns(1).Width = 145
+        dtgList.Columns(2).Width = 170
+        dtgList.Columns(3).Width = 170
+        dtgList.Columns(4).Width = 100
+        dtgList.Columns(5).Width = 90
+        dtgList.Columns(6).Width = 90
+        dtgList.Columns(7).Width = 55
 
         dtgList.Columns(5).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         dtgList.Columns(6).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
         dtgList.Columns(7).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
 
+
         dtgList.Columns(5).ValueType = GetType(Decimal)
         dtgList.Columns(5).DefaultCellStyle.Format = "N2"
-        dtgList.Columns(7).ValueType = GetType(Decimal)
-        dtgList.Columns(7).DefaultCellStyle.Format = "N2"
+        dtgList.Columns(6).ValueType = GetType(Decimal)
+        dtgList.Columns(6).DefaultCellStyle.Format = "N2"
     End Sub
 
-    Private Sub BTNUPDATE_Click(sender As Object, e As EventArgs) Handles BTNUPDATE.Click
+    Private Sub BTNUPDATE_Click(sender As Object, e As EventArgs)
         Try
             'Update products table
             updateQuery = "UPDATE tblItems SET ITEMNAME = '" & TXTPRONAME.Text & "', DESCRIPTION =  '" & TXTDESC.Text & "', ITEMQTY=  '" & TXTQTY.Text & "', OPRICE= '" & txtUprice.Text & "', UPRICE = '" & price.Text & "', CATEGPROID = '" & LBLCATEGID.Text & "' WHERE ITEMBARCODE= '" & txtBarcode.Text & "'"
@@ -235,5 +221,29 @@
         Catch ex As Exception
             MsgBox(ex.Message)
         End Try
+    End Sub
+
+    Private Sub dtgList_CellContentDoubleClick(sender As Object, e As DataGridViewCellEventArgs) Handles dtgList.CellContentDoubleClick
+        frmProductsUpdate.txtBarcode.Text = dtgList.CurrentRow.Cells(1).Value
+        frmProductsUpdate.TXTPRONAME.Text = dtgList.CurrentRow.Cells(2).Value
+        frmProductsUpdate.TXTDESC.Text = dtgList.CurrentRow.Cells(3).Value
+        frmProductsUpdate.TXTCATEGORY.Text = dtgList.CurrentRow.Cells(4).Value
+        frmProductsUpdate.txtUprice.Text = dtgList.CurrentRow.Cells(5).Value
+        frmProductsUpdate.TXTQTY.Text = dtgList.CurrentRow.Cells(7).Value
+        frmProductsUpdate.txtmprice.Text = dtgList.CurrentRow.Cells(6).Value
+        frmProductsUpdate.lblcategid.Text = LBLCATEGID.Text
+        frmProductsUpdate.ShowDialog()
+    End Sub
+
+    Private Sub BtnNew_Click(sender As Object, e As EventArgs) Handles btnNew.Click
+        txtBarcode.Enabled = True
+        TXTPRONAME.Enabled = True
+        TXTDESC.Enabled = True
+        TXTCATEGORY.Enabled = True
+        TXTQTY.Enabled = True
+        txtUprice.Enabled = True
+        price.Enabled = True
+        BTNSAVE.Enabled = True
+        txtBarcode.Select()
     End Sub
 End Class

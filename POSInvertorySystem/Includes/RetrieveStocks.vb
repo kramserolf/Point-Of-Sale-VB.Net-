@@ -22,13 +22,13 @@
     End Function
 
     Public Function ALL_STOCKS(ByVal DTG As DataGridView) As Boolean
-        query = "SELECT I.ITEMID,I.ITEMBARCODE AS [Barcode],  ITEMNAME AS [Item],DESCRIPTION AS [Description],CATEGORIES AS [Category], UPRICE AS [Price] ,ITEMQTY AS [Quantity], (UPRICE * ITEMQTY) AS [TotalPrice]  FROM tblItems AS I, tblCategory AS C WHERE  I.CATEGPROID=C.CATEGPROID"
+        query = "SELECT I.ITEMID,I.ITEMBARCODE AS [Barcode],  ITEMNAME AS [Item],DESCRIPTION AS [Description],CATEGORIES AS [Category], OPRICE AS [OPrice], UPRICE AS [Price] ,ITEMQTY AS [Quantity] FROM tblItems AS I, tblCategory AS C WHERE  I.CATEGPROID=C.CATEGPROID"
         RETRIEVEDATA(query, DTG)
         Return True
     End Function
 
     Public Function ALL_STOCKS_SEARCH(ByVal DTG As DataGridView, ByVal condition As String) As Boolean
-        query = "SELECT I.ITEMID,I.ITEMBARCODE AS [Barcode], ITEMNAME AS [Item],DESCRIPTION AS [Description],CATEGORIES AS [Category], UPRICE AS [Price] ,ITEMQTY AS [Quantity], (UPRICE * ITEMQTY) AS [TotalPrice]  FROM tblItems AS I, tblCategory AS C WHERE  I.CATEGPROID=C.CATEGPROID " & condition
+        query = "SELECT I.ITEMID,I.ITEMBARCODE AS [Barcode], ITEMNAME AS [Item],DESCRIPTION AS [Description],CATEGORIES AS [Category], UPRICE AS [Price], OPRICE AS [OPrice] ,ITEMQTY AS [Quantity] FROM tblItems AS I, tblCategory AS C WHERE  I.CATEGPROID=C.CATEGPROID " & condition
         RETRIEVEDATA(query, DTG)
         Return True
     End Function

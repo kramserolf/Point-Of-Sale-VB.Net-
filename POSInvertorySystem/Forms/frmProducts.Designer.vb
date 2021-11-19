@@ -52,7 +52,6 @@ Partial Class frmProducts
         Me.price = New System.Windows.Forms.TextBox()
         Me.Label10 = New System.Windows.Forms.Label()
         Me.ContextMenuStrip1 = New System.Windows.Forms.ContextMenuStrip(Me.components)
-        Me.BTNUPDATE = New System.Windows.Forms.Button()
         Me.ToolStrip1.SuspendLayout()
         CType(Me.dtgList, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
@@ -79,6 +78,7 @@ Partial Class frmProducts
         'BTNSAVE
         '
         Me.BTNSAVE.AutoSize = True
+        Me.BTNSAVE.Enabled = False
         Me.BTNSAVE.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.BTNSAVE.Location = New System.Drawing.Point(615, 42)
         Me.BTNSAVE.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
@@ -97,11 +97,13 @@ Partial Class frmProducts
         Me.LBLCATEGID.Size = New System.Drawing.Size(13, 13)
         Me.LBLCATEGID.TabIndex = 32
         Me.LBLCATEGID.Text = "0"
+        Me.LBLCATEGID.Visible = False
         '
         'TXTCATEGORY
         '
         Me.TXTCATEGORY.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Append
         Me.TXTCATEGORY.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems
+        Me.TXTCATEGORY.Enabled = False
         Me.TXTCATEGORY.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TXTCATEGORY.FormattingEnabled = True
         Me.TXTCATEGORY.Location = New System.Drawing.Point(253, 123)
@@ -112,6 +114,7 @@ Partial Class frmProducts
         '
         'TXTDESC
         '
+        Me.TXTDESC.Enabled = False
         Me.TXTDESC.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TXTDESC.Location = New System.Drawing.Point(253, 73)
         Me.TXTDESC.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
@@ -122,6 +125,7 @@ Partial Class frmProducts
         '
         'txtUprice
         '
+        Me.txtUprice.Enabled = False
         Me.txtUprice.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.8!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtUprice.Location = New System.Drawing.Point(253, 152)
         Me.txtUprice.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
@@ -155,6 +159,7 @@ Partial Class frmProducts
         '
         'TXTPRONAME
         '
+        Me.TXTPRONAME.Enabled = False
         Me.TXTPRONAME.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TXTPRONAME.Location = New System.Drawing.Point(253, 40)
         Me.TXTPRONAME.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
@@ -300,6 +305,7 @@ Partial Class frmProducts
         '
         'txtBarcode
         '
+        Me.txtBarcode.Enabled = False
         Me.txtBarcode.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.txtBarcode.Location = New System.Drawing.Point(253, 10)
         Me.txtBarcode.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
@@ -309,6 +315,7 @@ Partial Class frmProducts
         '
         'TXTQTY
         '
+        Me.TXTQTY.Enabled = False
         Me.TXTQTY.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.2!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.TXTQTY.Location = New System.Drawing.Point(505, 122)
         Me.TXTQTY.Margin = New System.Windows.Forms.Padding(2)
@@ -330,6 +337,7 @@ Partial Class frmProducts
         '
         'price
         '
+        Me.price.Enabled = False
         Me.price.Font = New System.Drawing.Font("Microsoft Sans Serif", 13.8!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.price.Location = New System.Drawing.Point(429, 152)
         Me.price.Margin = New System.Windows.Forms.Padding(2)
@@ -356,26 +364,12 @@ Partial Class frmProducts
         Me.ContextMenuStrip1.Name = "ContextMenuStrip1"
         Me.ContextMenuStrip1.Size = New System.Drawing.Size(61, 4)
         '
-        'BTNUPDATE
-        '
-        Me.BTNUPDATE.AutoSize = True
-        Me.BTNUPDATE.Enabled = False
-        Me.BTNUPDATE.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.75!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
-        Me.BTNUPDATE.Location = New System.Drawing.Point(615, 114)
-        Me.BTNUPDATE.Margin = New System.Windows.Forms.Padding(4, 5, 4, 5)
-        Me.BTNUPDATE.Name = "BTNUPDATE"
-        Me.BTNUPDATE.Size = New System.Drawing.Size(80, 26)
-        Me.BTNUPDATE.TabIndex = 61
-        Me.BTNUPDATE.Text = "Update"
-        Me.BTNUPDATE.UseVisualStyleBackColor = True
-        '
         'frmProducts
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.SystemColors.Control
         Me.ClientSize = New System.Drawing.Size(843, 607)
-        Me.Controls.Add(Me.BTNUPDATE)
         Me.Controls.Add(Me.Label10)
         Me.Controls.Add(Me.price)
         Me.Controls.Add(Me.Label5)
@@ -438,5 +432,4 @@ Partial Class frmProducts
     Friend WithEvents price As TextBox
     Friend WithEvents Label10 As Label
     Friend WithEvents ContextMenuStrip1 As ContextMenuStrip
-    Friend WithEvents BTNUPDATE As Button
 End Class

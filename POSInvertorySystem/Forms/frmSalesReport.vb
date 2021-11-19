@@ -1,4 +1,5 @@
-﻿Public Class frmSalesReport
+﻿
+Public Class frmSalesReport
     Private Sub FrmReport_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         dtgSales()
         dgDesign()
@@ -33,9 +34,9 @@
         dgReport.ColumnHeadersDefaultCellStyle.Font = New Font("tahoma", 12, FontStyle.Bold)
 
         'column header width
-        dgReport.Columns(0).Width = 280
-        dgReport.Columns(1).Width = 280
-        dgReport.Columns(2).Width = 225
+        dgReport.Columns(0).Width = 277
+        dgReport.Columns(1).Width = 277
+        dgReport.Columns(2).Width = 220
 
         'cell alignment
         dgReport.Columns(2).DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight
@@ -47,30 +48,37 @@
         dgReport.Columns(2).DefaultCellStyle.Format = "N2"
     End Sub
 
-
-
-
-    Private Sub BtnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
-        query = "SELECT TRANSDATE, TRANSNUM, TOTALPRICE FROM tblsummary WHERE FORMAT(TRANSDATE, 'dd/MM/yyyy') BETWEEN '" & dtFrom.Value & "' AND '" & dtTo.Value & "' GROUP BY TRANSDATE, TRANSNUM, TOTALPRICE"
-        LoadDTG(query, dgReport)
-    End Sub
-
-    Private Sub BtnReset_Click(sender As Object, e As EventArgs) Handles btnReset.Click
+    Private Sub BtnRefresh_Click(sender As Object, e As EventArgs) Handles btnRefresh.Click
         dtgSales()
         btnSearch.Enabled = False
-    End Sub
-
-    Private Sub DtFrom_ValueChanged(sender As Object, e As EventArgs) Handles dtFrom.ValueChanged
-        Label4.Text = dtFrom.Value()
+        txtSearch.Clear()
     End Sub
 
     Private Sub DtTo_ValueChanged(sender As Object, e As EventArgs) Handles dtTo.ValueChanged
         btnSearch.Enabled = True
     End Sub
 
+    Private Sub BtnSearch_Click(sender As Object, e As EventArgs) Handles btnSearch.Click
+        query = "SELECT TRANSDATE, TRANSNUM, TOTALPRICE FROM tblsummary WHERE FORMAT(TRANSDATE, 'dd/MM/yyyy') BETWEEN '" & dtFrom.Value & "' AND '" & dtTo.Value & "' GROUP BY TRANSDATE, TRANSNUM, TOTALPRICE"
+        LoadDTG(query, dgReport)
+        dgDesign()
+    End Sub
+
+    Private Sub DtFrom_ValueChanged(sender As Object, e As EventArgs) Handles dtFrom.ValueChanged
+        Label4.Text = dtFrom.Value()
+    End Sub
 
     Private Sub TxtSearch_TextChanged(sender As Object, e As EventArgs) Handles txtSearch.TextChanged
         query = "SELECT TRANSDATE, TRANSNUM, TOTALPRICE FROM tblsummary WHERE TRANSNUM LIKE '%" & txtSearch.Text & "%' GROUP BY TRANSDATE, TRANSNUM,TOTALPRICE"
         LoadDTG(query, dgReport)
+        dgDesign()
     End Sub
+
+    Private Sub BtnPrint_Click(sender As Object, e As EventArgs) Handles btnPrint.Click
+        'salesReport.CrystalReportViewer1.PrintReport()
+        salesReport.reportDocument1 = New CrystalReport2
+        salesReport.CrystalReportViewer1.ReportSource = salesReport.reportDocument1
+        salesReport.ShowDialog()
+    End Sub
+
 End Class
